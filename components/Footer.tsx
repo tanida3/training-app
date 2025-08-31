@@ -3,7 +3,6 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-      <div className="relative min-h-screen">
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-md flex gap-8 border border-gray-300">
           <div className="text-xl text-black rounded hover:text-blue-500 ">
             <Image src="/home-icon.png" alt="ホーム" width={24} height={24} className="translate-x-4 " />
@@ -18,6 +17,5 @@ export default function Home() {
             測定
           </Link>
         </div>
-      </div>
   );
 }
