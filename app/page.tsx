@@ -1,14 +1,15 @@
 import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Calendar from "../components/Calendar";
+import Footer from "../components/Footer"
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen pt-16">
-      <Header />
-      <div className="relative min-h-screen">
-        {/* コンテンツ部分 */}
+    <>
+      {/* カレンダーを中央に配置 */}
+      <div className="flex-1 flex items-start justify-start p-4">
+        <Calendar />
       </div>
-      <Footer />
-    </div>
+        <Footer />
+  </>
   );
 }
