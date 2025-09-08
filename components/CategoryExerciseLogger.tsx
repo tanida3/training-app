@@ -3,21 +3,25 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-// 以前の ExerciseSet 型を使用
+// ===== データ型 =====
+
+// 運動記録1件を表す型
 export type ExerciseSet = {
-  id: string;
-  exercise: string;
-  sets: number;
-  weight: number;
-  reps: number;
-  date: string;
+  id: string;        // 一意のID
+  exercise: string;  // 種目名（カテゴリー名と組み合わせる）
+  sets: number;      // セット数
+  weight: number;    // 重量(kg)
+  reps: number;      // 回数
+  date: string;      // 日付 (YYYY-MM-DD)
 };
 
+// 筋トレ部位カテゴリ
 export type MuscleCategory = {
-  id: string;
-  name: string;
+  id: string;   // 内部ID
+  name: string; // 表示名
 };
 
+// 筋トレカテゴリの一覧
 const muscleCategories: MuscleCategory[] = [
   { id: "chest", name: "胸" },
   { id: "back", name: "背中" },
@@ -31,25 +35,31 @@ const muscleCategories: MuscleCategory[] = [
   { id: "fullbody", name: "全身" },
 ];
 
+// ===== フォーム用状態型 =====
 type FormState = {
-  exercise: string;
-  sets: number;
-  weight: number;
-  reps: number;
+  exercise: string; // 種目名入力
+  sets: number;     // セット数
+  weight: number;   // 重量
+  reps: number;     // 回数
 };
 
+// ===== Props =====
 type Props = {
-  records: ExerciseSet[];
-  onAddRecord: (record: ExerciseSet) => void;
-  onDeleteRecord: (id: string) => void;
+  records: ExerciseSet[];                      // 記録一覧
+  onAddRecord: (record: ExerciseSet) => void; // 記録追加コールバック
+  onDeleteRecord: (id: string) => void;       // 記録削除コールバック
 };
 
+// ===== コンポーネント =====
 const CategoryExerciseLogger: React.FC<Props> = ({
   records,
   onAddRecord,
   onDeleteRecord,
 }) => {
+  // 現在開いているカテゴリーID（アコーディオン）
   const [openCategory, setOpenCategory] = useState<string | null>(null);
+
+  // カテゴリーごとのフォーム状態を管理
   const [formStates, setFormStates] = useState<Record<string, FormState>>(
     () =>
       muscleCategories.reduce((acc, cat) => {
@@ -58,24 +68,24 @@ const CategoryExerciseLogger: React.FC<Props> = ({
       }, {} as Record<string, FormState>)
   );
 
-  // 追加処理
+  // ===== 記録追加処理 =====
   const handleAdd = (categoryId: string) => {
     const state = formStates[categoryId];
-    if (!state.exercise) return;
+    if (!state.exercise) return; // 種目名が空なら追加しない
 
     const categoryName = muscleCategories.find(c => c.id === categoryId)?.name || "";
 
-    // カテゴリー名を exercise にまとめて格納
+    // 新しい運動記録を作成
     const newRecord: ExerciseSet = {
-      id: uuidv4(),
-      exercise: `${categoryName} - ${state.exercise}`,
+      id: uuidv4(), // 一意ID生成
+      exercise: `${categoryName} - ${state.exercise}`, // カテゴリー名 + 種目名
       sets: state.sets,
       weight: state.weight,
       reps: state.reps,
-      date: new Date().toISOString().split("T")[0],
+      date: new Date().toISOString().split("T")[0], // 今日の日付
     };
 
-    onAddRecord(newRecord);
+    onAddRecord(newRecord); // 親に追加通知
 
     // フォームをリセット
     setFormStates(prev => ({
@@ -84,6 +94,7 @@ const CategoryExerciseLogger: React.FC<Props> = ({
     }));
   };
 
+  // ===== フォーム入力変更処理 =====
   const handleChange = (
     categoryId: string,
     field: keyof FormState,
@@ -95,12 +106,14 @@ const CategoryExerciseLogger: React.FC<Props> = ({
     }));
   };
 
+  // ===== JSX =====
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 p-4">
       {muscleCategories.map(cat => {
-        const state = formStates[cat.id];
+        const state = formStates[cat.id]; // このカテゴリのフォーム状態
         return (
           <div key={cat.id} className="border p-2 rounded">
+            {/* カテゴリー名ボタン（クリックで開閉） */}
             <button
               className="font-semibold mb-2 w-full text-left"
               onClick={() =>
@@ -110,8 +123,10 @@ const CategoryExerciseLogger: React.FC<Props> = ({
               {cat.name}
             </button>
 
+            {/* カテゴリー開いたときのフォーム */}
             {openCategory === cat.id && (
               <div className="flex flex-col gap-2 mt-2">
+                {/* 種目名入力 */}
                 <input
                   type="text"
                   placeholder="種目名"
@@ -121,6 +136,8 @@ const CategoryExerciseLogger: React.FC<Props> = ({
                   }
                   className="border px-2 py-1 rounded"
                 />
+
+                {/* セット数・重量・回数入力 */}
                 <div className="flex gap-2">
                   <div className="flex flex-col">
                     <label className="text-sm">セット数</label>
@@ -160,6 +177,7 @@ const CategoryExerciseLogger: React.FC<Props> = ({
                   </div>
                 </div>
 
+                {/* 入力内容のプレビュー */}
                 {state.exercise && (
                   <div className="text-gray-700 text-sm mt-1">
                     {cat.name} - {state.exercise} {state.sets}セット ×{" "}
@@ -167,6 +185,7 @@ const CategoryExerciseLogger: React.FC<Props> = ({
                   </div>
                 )}
 
+                {/* 追加ボタン */}
                 <button
                   onClick={() => handleAdd(cat.id)}
                   className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
@@ -179,7 +198,7 @@ const CategoryExerciseLogger: React.FC<Props> = ({
         );
       })}
 
-      {/* 記録一覧 */}
+      {/* ===== 記録一覧 ===== */}
       <div className="col-span-full mt-4 flex flex-col gap-2">
         {records.map(r => (
           <div
