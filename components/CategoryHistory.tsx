@@ -1,6 +1,7 @@
 "use client";
 
-import { ExerciseSet } from "./ExerciseLogger";
+import { ExerciseSet } from "./Ex";
+
 
 // ===== Props =====
 type Props = {
