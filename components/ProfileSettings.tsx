@@ -1,19 +1,19 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 
-// 1) 型定義 ------------------------------------------------------------
-type Gender = "male" | "female" | "other";
+// --- 1) 型定義 ------------------------------------------------------------
+type Gender = "male" | "female" | "other"; // 性別の型定義
 
 export type Profile = {
-    name: string;
-    gender: Gender;
-    age: number | ""; // 未入力を許容するために空文字もOK
-    heightCm: number | ""; // cm
-    weightKg: number | "";
-    goal: string; // 目標（例：体脂肪-3% or 5kg減）
+    name: string;         // 名前
+    gender: Gender;       // 性別
+    age: number | "";     // 年齢（未入力の場合は空文字も許容）
+    heightCm: number | ""; // 身長(cm)
+    weightKg: number | ""; // 体重(kg)
+    goal: string;         // 目標（例: 体脂肪-3% or 5kg減）
 };
 
-// 2) 初期値 ------------------------------------------------------------
+// --- 2) 初期値 ------------------------------------------------------------
 const EMPTY_PROFILE: Profile = {
     name: "",
     gender: "other",
@@ -23,16 +23,20 @@ const EMPTY_PROFILE: Profile = {
     goal: "",
 };
 
-// 3) ユーティリティ（バリデーション等） -------------------------------
-type Errors = Partial<Record<keyof Profile, string>>;
+// --- 3) ユーティリティ関数（バリデーションやBMI計算） -------------------
+type Errors = Partial<Record<keyof Profile, string>>; // プロフィールの各項目のエラーを格納する型
 
+// 入力チェック関数
 function validate(profile: Profile): Errors {
     const errors: Errors = {};
 
+    // 名前
     if (!profile.name.trim()) errors.name = "名前を入力してください";
+
+    // 性別
     if (!profile.gender) errors.gender = "性別を選択してください";
 
-    // age
+    // 年齢
     if (profile.age === "" || isNaN(Number(profile.age))) {
         errors.age = "年齢を数字で入力してください";
     } else {
@@ -40,44 +44,45 @@ function validate(profile: Profile): Errors {
         if (age < 0 || age > 120) errors.age = "0〜120の範囲で入力してください";
     }
 
-    // height
+    // 身長
     if (profile.heightCm === "" || isNaN(Number(profile.heightCm))) {
         errors.heightCm = "身長(cm)を数字で入力してください";
     } else if (Number(profile.heightCm) < 50 || Number(profile.heightCm) > 250) {
         errors.heightCm = "50〜250cmの範囲で入力してください";
     }
 
-    //weight
+    // 体重
     if (profile.weightKg === "" || isNaN(Number(profile.weightKg))) {
         errors.weightKg = "体重(kg)を数字で入力してください";
     } else if (Number(profile.weightKg) < 10 || Number(profile.weightKg) > 300) {
         errors.weightKg = "10〜300kgの範囲で入力してください";
     }
 
-    // goal（任意項目、必要なら必須に変更）
+    // 目標（任意項目、必要なら必須化可能）
     if (profile.goal.length > 50) errors.goal = "目標は50文字以内で入力してください";
 
     return errors;
 }
 
+// BMI計算関数
 function calcBMI(heightCm: number | "", weightKg: number | ""): number | null {
     if (heightCm === "" || weightKg === "") return null;
     const hM = Number(heightCm) / 100;
     const w = Number(weightKg);
     if (!hM || !w) return null;
-    return +(w / (hM * hM)).toFixed(1);
+    return +(w / (hM * hM)).toFixed(1); // 小数点1位まで
 }
 
-// 4) ローカルストレージ用キー -----------------------------------------
+// --- 4) ローカルストレージ用キー -----------------------------------------
 const STORAGE_KEY = "profile-settings:v1";
 
-// 5) UIコンポーネント ---------------------------------------------------
+// --- 5) UIコンポーネント ---------------------------------------------------
 export default function ProfileSettings() {
-    const [profile, setProfile] = useState<Profile>(EMPTY_PROFILE);
-    const [errors, setErrors] = useState<Errors>({});
-    const [saved, setSaved] = useState(false);
+    const [profile, setProfile] = useState<Profile>(EMPTY_PROFILE); // 入力値のstate
+    const [errors, setErrors] = useState<Errors>({});               // 入力エラーのstate
+    const [saved, setSaved] = useState(false);                      // 保存完了フラグ
 
-    // 初期ロード.これは「ページを開いたときに前回保存したプロフィールを復元する」ための処理です。
+    // 初期ロード: ローカルストレージから保存済みプロフィールを復元
     useEffect(() => {
         try {
             const raw = localStorage.getItem(STORAGE_KEY);
@@ -90,42 +95,44 @@ export default function ProfileSettings() {
         }
     }, []);
 
+    // BMIの計算結果をメモ化
     const bmi = useMemo(() => calcBMI(profile.heightCm, profile.weightKg), [profile.heightCm, profile.weightKg]);
 
     // 入力ハンドラ（numberは空文字を許容）
     const handleChange = <K extends keyof Profile,>(key: K, value: Profile[K]) => {
         setProfile((prev) => ({ ...prev, [key]: value }));
-        setSaved(false);
+        setSaved(false); // 入力変更があったら保存フラグをリセット
     };
 
+    // 保存ボタン押下時
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const v = validate(profile);
+        const v = validate(profile); // バリデーション
         setErrors(v);
-        if (Object.keys(v).length > 0) return;
+        if (Object.keys(v).length > 0) return; // エラーがあれば保存せず終了
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(profile)); // 保存
         setSaved(true);
     };
 
+    // リセットボタン押下時
     const handleReset = () => {
-        setProfile(EMPTY_PROFILE);
-        setErrors({});
+        setProfile(EMPTY_PROFILE); // 入力値リセット
+        setErrors({});              // エラーリセット
         setSaved(false);
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(STORAGE_KEY); // ローカルストレージも削除
     };
 
-
-
-    // css部分はコピペで作成
     return (
         <div className="min-h-screen w-full bg-gray-50 flex items-start justify-center p-6">
             <div className="w-full max-w-2xl bg-white rounded-2xl shadow p-6">
                 <h1 className="text-2xl font-semibold mb-2">プロフィール設定</h1>
-                <p className="text-sm text-gray-500 mb-6">名前、性別、年齢、身長・体重、目標を登録できます。保存するとブラウザにローカル保存されます。</p>
+                <p className="text-sm text-gray-500 mb-6">
+                    名前、性別、年齢、身長・体重、目標を登録できます。保存するとブラウザにローカル保存されます。
+                </p>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* 名前 */}
+                    {/* 名前入力 */}
                     <div>
                         <label className="block text-sm font-medium mb-1">名前 *</label>
                         <input
@@ -196,7 +203,7 @@ export default function ProfileSettings() {
                         </div>
                     </div>
 
-                    {/* 目標 */}
+                    {/* 目標（任意） */}
                     <div>
                         <label className="block text-sm font-medium mb-1">目標（任意）</label>
                         <input
@@ -209,7 +216,7 @@ export default function ProfileSettings() {
                         {errors.goal && <p className="mt-1 text-sm text-red-600">{errors.goal}</p>}
                     </div>
 
-                    {/* BMIの自動表示 */}
+                    {/* BMI表示 */}
                     <div className="rounded-xl bg-gray-100 p-3 text-sm">
                         <p className="font-medium">現在の推定BMI</p>
                         <p className="mt-1">{bmi === null ? "-" : bmi}<span className="ml-1 text-gray-500">（目安: 18.5〜24.9が標準）</span></p>
