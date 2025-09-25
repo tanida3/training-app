@@ -11,6 +11,7 @@ export default function Home() {
       <div className="flex-1 flex items-start justify-start p-4">
         <Calendar />
       </div>
+      あ
       <TodayBotton/>
         <Footer />
   </>
