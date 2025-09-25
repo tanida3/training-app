@@ -9,12 +9,12 @@ export default function Home() {
             ホーム
           </div>
           <Link href="/trainingu" className="text-xl text-black rounded hover:text-blue-500">
-            <Image src="/training-icon.png" alt="トレーニング" width={24} height={24} className="translate-x-10" />
-            トレーニング
+            <Image src="/training-icon.png" alt="レーニング" width={24} height={24} className="translate-x-7" />
+            履歴/分析
           </Link>
           <Link href="/sokutei" className="text-xl text-black rounded hover:text-blue-500 ">
-            <Image src="/measure-icon.png" alt="測定" width={24} height={24} className="translate-x-2" />
-            測定
+            <Image src="/measure-icon.png" alt="測定" width={24} height={24} className="translate-x-4" />
+            体組成
           </Link>
         </div>
   );
