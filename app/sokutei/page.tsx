@@ -15,24 +15,9 @@ export default function Home() {
   }, []);
 
   return (
-<<<<<<< HEAD
     <div className="p-4">
-      {/* ホームリンク - ヘッダーの直下 */}
-      <div className="mb-4">
-        <Link
-          href="/"
-          className="text-1xl inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-300 transition"
-        >
-          ホームに戻る
-        </Link>
-      </div>
-
       {/* BodyStats コンポーネント */}
       <BodyStats height={height} />
-=======
-    <div>
-    
->>>>>>> 41-履歴コンポーネント
     </div>
   );
 }
