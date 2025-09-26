@@ -15,6 +15,7 @@ export default function Home() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="p-4">
       {/* ホームリンク - ヘッダーの直下 */}
       <div className="mb-4">
@@ -28,6 +29,10 @@ export default function Home() {
 
       {/* BodyStats コンポーネント */}
       <BodyStats height={height} />
+=======
+    <div>
+    
+>>>>>>> 41-履歴コンポーネント
     </div>
   );
 }

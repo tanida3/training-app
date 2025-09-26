@@ -113,10 +113,11 @@ const CustomCalendar: React.FC = () => {
     type="number"
     name="sets"
     placeholder="セット数"
-    value={form.sets}
+    value={form.sets} 
     onChange={handleInputChange}
     className="border p-1 text-sm rounded"
   />
+
   <input
     type="number"
     name="weight"
