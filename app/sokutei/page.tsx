@@ -1,15 +1,17 @@
+// app/page.tsx または pages/index.tsx
 "use client";
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import ReactModal from "react-modal";
 import BodyStats from "@/components/BodyStats";
+import SettingsModal from "@/components/SettingsModal"; // 設定モーダルコンポーネント
 
 export default function Home() {
   const [height, setHeight] = useState<number | null>(null);
 
   useEffect(() => {
-    // react-modal のルート要素を登録（この page 内のすべてのモーダルに有効）
-    ReactModal.setAppElement("body");
+    // react-modal のルート要素を登録
+    import("react-modal").then((ReactModal) => {
+      ReactModal.setAppElement("body");
+    });
 
     const savedHeight = localStorage.getItem("height");
     if (savedHeight) {
@@ -17,10 +19,21 @@ export default function Home() {
     }
   }, []);
 
+  // 身長変更時に localStorage に保存
+  const handleSetHeight = (h: number) => {
+    setHeight(h);
+    localStorage.setItem("height", h.toString());
+  };
+
   return (
-    <div className="p-4">
+    <div className="p-4 relative">
       {/* BodyStats コンポーネント */}
       <BodyStats height={height} />
+
+      {/* ヘッダー下右上に設定ボタンを配置 */}
+      <div className="absolute top-0 right-0 mt-4 mr-4">
+        <SettingsModal height={height} setHeight={handleSetHeight} />
+      </div>
     </div>
   );
 }
