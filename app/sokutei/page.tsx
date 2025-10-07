@@ -1,4 +1,3 @@
-// app/page.tsx または pages/index.tsx
 "use client";
 import { useState, useEffect } from "react";
 import BodyStats from "@/components/BodyStats";
@@ -26,7 +25,7 @@ export default function Home() {
   };
 
   return (
-    <div className="p-4 relative">
+    <div className="p-4 relative min-h-screen pb-20"> {/* 画面が常にスクロール可能でフッターを表示 */}
       {/* BodyStats コンポーネント */}
       <BodyStats height={height} />
 
