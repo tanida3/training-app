@@ -7,7 +7,7 @@ export default function Home() {
   const [height, setHeight] = useState<number | null>(null);
 
   useEffect(() => {
-    // react-modal のルート要素を登録
+    // react-modal のルート要素を登録o
     import("react-modal").then((ReactModal) => {
       ReactModal.setAppElement("body");
     });
