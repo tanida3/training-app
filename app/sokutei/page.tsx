@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import BodyStats from "@/components/BodyStats";
-import SettingsModal from "@/components/SettingsModal"; // 設定モーダルコンポーネント
+import BodyStats from "../../components/BodyStats";
+import SettingsModal from "../../components/SettingsModal";
 
 export default function Home() {
   const [height, setHeight] = useState<number | null>(null);
@@ -25,7 +25,7 @@ export default function Home() {
   };
 
   return (
-    <div className="p-4 relative min-h-screen pb-20"> {/* 画面が常にスクロール可能でフッターを表示 */}
+    <div className="p-4 relative min-h-screen pb-20">
       {/* BodyStats コンポーネント */}
       <BodyStats height={height} />
 

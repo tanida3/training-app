@@ -1,6 +1,6 @@
 import Calendar from "../components/Calendar";
-import TodayBotton from "../components/TodayBotton"
-
+import TodayBotton from "../components/TodayBotton";
+import TrainingAddButton from "../components/TrainingAddButton";
 
 export default function Home() {
   return (
@@ -11,7 +11,9 @@ export default function Home() {
       </div>
       
       <TodayBotton/>
-        
-  </>
+      
+      {/* トレーニング追加ボタン（右下固定） */}
+      <TrainingAddButton />
+    </>
   );
 }
