@@ -123,7 +123,7 @@ export default function BodyStats({ height }: BodyStatsProps) {
 
   const getChartData = (name: string) => {
     return recordsHistory
-      .sort((a, b) => (a.date! > b.date! ? 1 : -1))
+      .toSorted((a, b) => (a.date! > b.date! ? 1 : -1))
       .map((r) => {
         let value = 0;
         switch (name) {
