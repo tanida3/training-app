@@ -94,7 +94,7 @@ const VideoApp: React.FC = () => {
           className="border p-2 flex-1 rounded"
         />
         <button
-          onClick={() => void handleAddVideo()}
+          onClick={handleAddVideo}
           disabled={loading} // 追加中はボタン無効化
           className={`px-4 py-2 rounded text-white ${loading ? "bg-gray-400" : "bg-blue-500"}`}
         >
