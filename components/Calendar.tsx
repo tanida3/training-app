@@ -21,6 +21,7 @@ const CustomCalendar: React.FC = () => {
     reps: 0
   });
 
+  CustomCalendar
   // 日付クリック
   const handleDateClick = (value: Date) => {
     setSelectedDate(value);
@@ -63,9 +64,18 @@ const CustomCalendar: React.FC = () => {
   };
 
   // 選択中の日付の記録だけ抽出
-  const selectedDateRecords = records.filter(
-    (record) => record.date === selectedDate.toISOString().split('T')[0]
-  );
+ const selectedDateString = selectedDate
+  .toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  })
+  .replace(/\//g, "-");
+
+const selectedDateRecords = records.filter(
+  (record) => record.date === selectedDateString
+);
+
 
   return (
     <div className="flex flex-col gap-4">

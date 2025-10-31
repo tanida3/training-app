@@ -49,7 +49,7 @@ export default function ExerciseGraph({ records }: Props) {
 
   // カスタムツールチップの定義
   const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
+    if (active && payload) {
       const data: ChartData = payload[0].payload; // 選択されたデータを取得
       return (
         <div className="bg-white p-2 border rounded shadow">
