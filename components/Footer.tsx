@@ -19,7 +19,7 @@ export default function Home() {
       </Link>
 
       <Link
-        href="/trainingu"
+        href="/training"
         className="flex flex-col items-center text-sm text-black hover:text-blue-500"
       >
         <Image
@@ -33,7 +33,7 @@ export default function Home() {
       </Link>
 
       <Link
-        href="/sokutei"
+        href="/measurement"
         className="flex flex-col items-center text-sm text-black hover:text-blue-500"
       >
         <Image

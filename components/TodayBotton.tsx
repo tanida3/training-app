@@ -1,10 +1,7 @@
 'use client';
-import Link from "next/link";
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="flex gap-6 p-6 bg-gray-100 min-h-screen">
+    <div className="flex gap-6 p-6">
       {/* 右側：ダッシュボード */}
       <div className="absolute top-20 right-2 w-1/2 space-y-4">
         
