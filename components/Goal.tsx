@@ -39,8 +39,9 @@ export default function Home() {
         </button>
       </form>
 
-      <div className="p-4 bg-gray-100 rounded-lg">
+      <div className="p-4 bg-gray-100 rounded-lg pb-24">
         <h2 className="text-xl font-semibold text-gray-700 mb-2">登録された目標</h2>
+         <div className="max-h-[300px] overflow-y-auto pr-2"></div>
         <ul className="space-y-2">
           {tasks.map((task, index) => (
             <li
