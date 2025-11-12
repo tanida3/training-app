@@ -1,9 +1,9 @@
 'use client';
 export default function Home() {
   return (
-    <div className="flex gap-6 p-6">
+    <div className="flex gap-4">
       {/* 右側：ダッシュボード */}
-      <div className="absolute top-20 right-2 w-1/2 space-y-4">
+      <div className="w-1/2 space-y-4 w-90 sm:w-150">
         
         {/* 合計負荷量 / 7日間 */}
         <div className="bg-white text-blue-700 p-4 rounded-lg shadow border border-blue-300">

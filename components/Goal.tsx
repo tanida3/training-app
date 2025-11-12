@@ -19,10 +19,11 @@ export default function Home() {
   return (
     <div>
       <div className="text-center my-6">
-        <h1 className="text-3xl font-bold text-gray-800">あなたのトレーニング目標を記録しよう！</h1>
-        <p className="text-gray-500 mt-2">達成したい目標を入力して、モチベーションをキープしましょう。</p>
+        <h1 className="text-3xl font-bold text-gray-800 text-base sm:text-2xl">あなたのトレーニング目標を記録しよう！</h1>
+        <p className="text-gray-500 mt-2 text-sm sm:text-xl">達成したい目標を入力して、モチベーションをキープしましょう。</p>
       </div>
-
+    <div className="flex justify-center">
+    <div className = "sm:w-250 w-100">
       <form onSubmit={handleAdd} className="mb-4 space-y-4 p-4 bg-white rounded-lg shadow">
         <input
           type="text"
@@ -40,7 +41,7 @@ export default function Home() {
       </form>
 
       <div className="p-4 bg-gray-100 rounded-lg pb-24">
-        <h2 className="text-xl font-semibold text-gray-700 mb-2">登録された目標</h2>
+        <h2 className="text-xl font-semibold text-gray-700 mb-2 ">登録された目標</h2>
          <div className="max-h-[300px] overflow-y-auto pr-2"></div>
         <ul className="space-y-2">
           {tasks.map((task, index) => (
@@ -58,6 +59,8 @@ export default function Home() {
             </li>
           ))}
         </ul>
+      </div>
+      </div>
       </div>
     </div>
   );
