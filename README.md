@@ -19,13 +19,6 @@
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="40" height="40"/>
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vscode/vscode-original.svg" alt="VSCode" width="40" height="40"/>
 </p>
-
-
-
-# 🏋️‍♂️ Training App（筋トレ記録アプリ）
-
-[👉 アプリを見る](https://github.com/tanida3/training-app)
-
 ---
 
 ## 📌 概要
