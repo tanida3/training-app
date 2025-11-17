@@ -160,9 +160,3 @@
 
 - [岡本 耀](mailto:hikaru.012723@gmail.com)
 - tanida3（GitHub）
-
----
-
-## 🔗 リンク
-
-- 📂 GitHubリポジトリ: [https://github.com/tanida3/training-app](https://github.com/tanida3/training-app)
