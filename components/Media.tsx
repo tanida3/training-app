@@ -2,7 +2,7 @@ import { FaYoutube } from "react-icons/fa";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-100 text-black p-4 pb-24">
+    <div className="min-h-screen text-black p-4 pb-24 sm:w-200 mx-auto">
       {/* 胸 */}
       <div className="mb-6">
         <div className="bg-blue-500 text-white px-3 py-2 rounded-t-md font-semibold">
