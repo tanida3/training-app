@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { db } from "@/src/firebase"; // ← あなたのFirebase初期化ファイルのパスに合わせてください
+import { collection, addDoc } from "firebase/firestore";
+
 
 type TrainingRecord = {
   date: string;
@@ -36,23 +39,38 @@ const CustomCalendar: React.FC = () => {
   };
 
   // 記録追加
-  const handleAddRecord = () => {
-    const isoDate = selectedDate.toISOString().split('T')[0];
+  const handleAddRecord = async () => {
+  const isoDate = selectedDate.toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).replace(/\//g, "-");
 
-    const newRecord: TrainingRecord = {
-      date: isoDate,
-      ...form
-    };
-
-    setRecords([...records, newRecord]);
-
-    setForm({
-      exercise: '',
-      sets: 0,
-      weight: 0,
-      reps: 0
-    });
+  const newRecord: TrainingRecord = {
+    date: isoDate,
+    ...form
   };
+
+  // ✅ 1. ローカルstateに追加（今の動きそのまま）
+  setRecords(prev => [...prev, newRecord]);
+
+  // ✅ 2. Firebase Firestore に保存
+  try {
+    await addDoc(collection(db, "trainingRecords"), newRecord);
+    console.log("記録をFirebaseに保存しました");
+  } catch (error) {
+    console.error("Firebaseへの保存に失敗しました", error);
+  }
+
+  // ✅ 3. フォーム初期化
+  setForm({
+    exercise: '',
+    sets: 0,
+    weight: 0,
+    reps: 0
+  });
+};
+
 
   // ★ 記録削除
   const handleDeleteRecord = (index: number) => {
