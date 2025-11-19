@@ -3,7 +3,7 @@
 | 分野             | 技術・ツール例                                         |
 |------------------|--------------------------------------------------------|
 | 言語 / フレームワーク | TypeScript / JavaScript / HTML / CSS / Next.js / React |
-| スタイリング      | Tailwind CSS / SCSS                                  |
+| スタイリング      | Tailwind CSS                                  |
 | バージョン管理    | Git / GitHub                                          |
 | 開発ツール        | VSCode |
 | DB        | FireBase |
