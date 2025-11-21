@@ -1,10 +1,7 @@
-import Media from "../../components/Media";  
-  
-
 export default function Home() {
   return (
     <div>
-      <Media />  
+a
     </div>
     
   );
