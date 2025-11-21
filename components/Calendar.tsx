@@ -16,12 +16,11 @@ const CustomCalendar: React.FC = () => {
   const [records, setRecords] = useState<TrainingRecord[]>([]);
   const [form, setForm] = useState({
     exercise: '',
-    sets: 0,
-    weight: 0,
-    reps: 0
+    sets: '',
+    weight: '',
+    reps: ''
   });
 
-  CustomCalendar
   // 日付クリック
   const handleDateClick = (value: Date) => {
     setSelectedDate(value);
@@ -29,9 +28,10 @@ const CustomCalendar: React.FC = () => {
 
   // 入力フォーム変更
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setForm({
       ...form,
-      [e.target.name]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
+      [name]: value
     });
   };
 
@@ -41,20 +41,23 @@ const CustomCalendar: React.FC = () => {
 
     const newRecord: TrainingRecord = {
       date: isoDate,
-      ...form
+      exercise: form.exercise,
+      sets: Number(form.sets),
+      weight: Number(form.weight),
+      reps: Number(form.reps),
     };
 
     setRecords([...records, newRecord]);
 
     setForm({
       exercise: '',
-      sets: 0,
-      weight: 0,
-      reps: 0
+      sets: '',
+      weight: '',
+      reps: ''
     });
   };
 
-  // ★ 記録削除
+  // 記録削除
   const handleDeleteRecord = (index: number) => {
     const isoDate = selectedDate.toISOString().split('T')[0];
     const newRecords = records.filter(
@@ -64,18 +67,17 @@ const CustomCalendar: React.FC = () => {
   };
 
   // 選択中の日付の記録だけ抽出
- const selectedDateString = selectedDate
-  .toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  })
-  .replace(/\//g, "-");
+  const selectedDateString = selectedDate
+    .toLocaleDateString("ja-JP", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .replace(/\//g, "-");
 
-const selectedDateRecords = records.filter(
-  (record) => record.date === selectedDateString
-);
-
+  const selectedDateRecords = records.filter(
+    (record) => record.date === selectedDateString
+  );
 
   return (
     <div className="flex flex-col w-90 sm:w-80 gap-4">
@@ -110,48 +112,61 @@ const selectedDateRecords = records.filter(
         )}
 
         {/* 入力フォーム */}
-<div className="flex flex-col gap-0.4 mt-4">
-  <input
-    type="text"
-    name="exercise"
-    placeholder="種目名"
-    value={form.exercise}
-    onChange={handleInputChange}
-    className="border p-1 text-sm rounded"
-  />
-  <input
-    type="number"
-    name="sets"
-    placeholder="セット数"
-    value={form.sets} 
-    onChange={handleInputChange}
-    className="border p-1 text-sm rounded"
-  />
-
-  <input
-    type="number"
-    name="weight"
-    placeholder="重量 (kg)"
-    value={form.weight}
-    onChange={handleInputChange}
-    className="border p-1 text-sm rounded"
-  />
-  <input
-    type="number"
-    name="reps"
-    placeholder="回数"
-    value={form.reps}
-    onChange={handleInputChange}
-    className="border p-1 text-sm rounded"
-  />
-  <button
-    onClick={handleAddRecord}
-    className="bg-blue-500 text-white px-3 py-1 mt-2 rounded text-sm"
-  >
-    記録を追加
-  </button>
-</div>
-
+        <div className="flex flex-col gap-0.4 mt-4">
+          <input
+            type="text"
+            name="exercise"
+            placeholder="種目名"
+            value={form.exercise}
+            onChange={handleInputChange}
+            className="border p-1 text-sm rounded"
+          />
+          <div className="relative">
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              name="sets"
+              placeholder="セット数"
+              value={form.sets}
+              onChange={handleInputChange}
+              className="w-full border p-1 pr-10 text-sm rounded"
+            />
+            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm">セット</span>
+          </div>
+          <div className="relative">
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              name="weight"
+              placeholder="重量"
+              value={form.weight}
+              onChange={handleInputChange}
+              className="w-full border p-1 pr-10 text-sm rounded"
+            />
+            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm">kg</span>
+          </div>
+          <div className="relative">
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              name="reps"
+              placeholder="回数"
+              value={form.reps}
+              onChange={handleInputChange}
+              className="w-full border p-1 pr-10 text-sm rounded"
+            />
+            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm">回</span>
+          </div>
+          <button
+            onClick={handleAddRecord}
+            className="bg-blue-500 text-white px-3 py-1 mt-2 rounded text-sm"
+          >
+            記録を追加
+          </button>
+        </div>
       </div>
     </div>
   );
