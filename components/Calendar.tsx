@@ -78,7 +78,7 @@ const selectedDateRecords = records.filter(
 
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col w-90 sm:w-80 gap-4">
       {/* 上：カレンダー */}
       <div>
         <Calendar onClickDay={handleDateClick} value={selectedDate} />

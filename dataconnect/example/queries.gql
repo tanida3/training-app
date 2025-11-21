@@ -1,0 +1,20 @@
+mutation CreateUser($username: String!, $email: String!, $createdAt: Timestamp!) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  user_insert(data: {username: $username, email: $email, createdAt: $createdAt})
+}
+
+query GetExercises @auth(level: USER) {
+  exercises(where: {userId: {eq_expr: "auth.uid"}}) {
+    id
+    name
+    description
+    isCustom
+  }
+}
+
+mutation CreateGoal($exerciseId: UUID!, $userId: UUID!, $createdAt: Timestamp!, $dueDate: Date!, $targetType: String!, $targetValue: Float!) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  goal_insert(data: {exerciseId: $exerciseId, userId: $userId, createdAt: $createdAt, dueDate: $dueDate, targetType: $targetType, targetValue: $targetValue})
+}
+
+mutation UpdateWorkoutSessionNotes($id: UUID!, $notes: String) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  workoutSession_update(key: {id: $id}, data: {notes: $notes})
+}

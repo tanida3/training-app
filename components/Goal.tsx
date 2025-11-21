@@ -19,45 +19,60 @@ export default function Home() {
   return (
     <div>
       <div className="text-center my-6">
-        <h1 className="text-3xl font-bold text-gray-800">あなたのトレーニング目標を記録しよう！</h1>
-        <p className="text-gray-500 mt-2">達成したい目標を入力して、モチベーションをキープしましょう。</p>
+        <h1 className="text-3xl font-bold text-gray-800 text-base sm:text-2xl">
+          あなたのトレーニング目標を記録しよう！
+        </h1>
+        <p className="text-gray-500 mt-2 text-sm sm:text-xl">
+          達成したい目標を入力して、モチベーションをキープしましょう。
+        </p>
       </div>
 
-      <form onSubmit={handleAdd} className="mb-4 space-y-4 p-4 bg-white rounded-lg shadow">
-        <input
-          type="text"
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          placeholder="例：1ヶ月で体脂肪-3%"
-          className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:border-blue-400"
-        />
-        <button
-          type="submit"
-          className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-400 transform hover:scale-95 duration-200 mt-2"
-        >
-          追加
-        </button>
-      </form>
-
-      <div className="p-4 bg-gray-100 rounded-lg pb-24">
-        <h2 className="text-xl font-semibold text-gray-700 mb-2">登録された目標</h2>
-         <div className="max-h-[300px] overflow-y-auto pr-2"></div>
-        <ul className="space-y-2">
-          {tasks.map((task, index) => (
-            <li
-              key={index}
-              className="flex items-center justify-between bg-white p-2 rounded shadow"
+      <div className="flex justify-center">
+        <div className="sm:w-250 w-100">
+          <form
+            onSubmit={handleAdd}
+            className="mb-4 space-y-4 p-4 bg-white rounded-lg shadow"
+          >
+            <input
+              type="text"
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              placeholder="例：1ヶ月で体脂肪-3%"
+              className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:border-blue-400"
+            />
+            <button
+              type="submit"
+              className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-400 transform hover:scale-95 duration-200 mt-2"
             >
-              <span>{task}</span>
-              <button
-                onClick={() => handleDelete(index)}
-                className="text-red-500 hover:text-red-700"
-              >
-                🗑️
-              </button>
-            </li>
-          ))}
-        </ul>
+              追加
+            </button>
+          </form>
+
+          <div className="p-4 bg-gray-100 rounded-lg pb-24">
+            <h2 className="text-xl font-semibold text-gray-700 mb-2">
+              登録された目標
+            </h2>
+
+            <div className="max-h-[300px] overflow-y-auto pr-2">
+              <ul className="space-y-2">
+                {tasks.map((task, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center justify-between bg-white p-2 rounded shadow"
+                  >
+                    <span>{task}</span>
+                    <button
+                      onClick={() => handleDelete(index)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      🗑️
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
