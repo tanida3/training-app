@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { db } from "@/src/firebase"; // ← あなたのFirebase初期化ファイルのパスに合わせてください
+import { db } from "@/src/firebase"; 
 import { collection, addDoc } from "firebase/firestore";
 
 
